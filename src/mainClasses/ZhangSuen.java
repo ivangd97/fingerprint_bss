@@ -30,11 +30,16 @@ public class ZhangSuen {
                     if (nn < 2 || nn > 6)
                         continue;
 
-                    if (numTransitions(r, c, image) != 1)
+                    if (numTransitions(r, c, image) != 1 && numTransitions(r, c, image) != 2)
                         continue;
 
                     if (!atLeastOneIsWhite(r, c, firstStep ? 0 : 1, image))
                         continue;
+
+                        if(numTransitions(r, c, image) == 2){
+                            if(!doExtraComprobations(r, c, image, firstStep ? 0 : 1))
+                                continue;
+                        }
 
                     toWhite.add(new Point(c, r));
                     hasChanged = true;
@@ -48,6 +53,30 @@ public class ZhangSuen {
         } while (firstStep || hasChanged);
 
         return image;
+    }
+
+    static boolean doExtraComprobations(int r, int c, int [][] image, int step){
+        if(step == 0){
+            if(((image[r+1][c] * image[r][c+1]) == 1 && image[r-1][c-1] == 0) ||
+                    ((image[r+1][c] * image[r][c-1]) ==1 && (neg(image[r+1][c-1]) * neg(image[r-1][c+1]) * neg(image[r-1][c])) == 1))
+                return true;
+            else
+                return false;
+        }
+        else{
+            if(((image[r][c-1] * image[r-1][c]) == 1 && image[r+1][c+1] == 0) ||
+                    ((image[r][c+1] * image[r-1][c]) == 1 && (neg(image[r+1][c-1]) * neg(image[r+1][c]) * neg(image[r-1][c])) == 1))
+                return true;
+            else
+                return false;
+        }
+    }
+
+    static int neg(int num){
+        if(num == 1)
+            return 0;
+        else
+            return 1;
     }
 
     static int numNeighbors(int r, int c, int [][] image) {
