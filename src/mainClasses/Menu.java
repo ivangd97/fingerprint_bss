@@ -278,28 +278,33 @@ public class Menu {
     public static void doAngles(){
         //TODO: ANGULOS
         double angle = 0;
-        int auxX, auxY;
+        int antX, antY;
         boolean found;
         for(int i = 0; i < CrossingNumbersResult.size(); i++){
-            auxX = CrossingNumbersResult.get(i).getMinutiaX();
-            auxY = CrossingNumbersResult.get(i).getMinutiaY();
+            antX = CrossingNumbersResult.get(i).getMinutiaX();
+            antY = CrossingNumbersResult.get(i).getMinutiaY();
             if(CrossingNumbersResult.get(i).getType() == 1){
                 for(int j = 0; j < 6; j++){
                     found = false;
-                    for(int ix = auxX - 1; ix < auxX + 2 && !found; ix++){
-                        for(int iy = auxY - 1; iy < auxY +2 && !found; iy++){
-                               if(auxZS[ix][iy] == 1 && !(ix == auxX && iy == auxY) && !(ix == CrossingNumbersResult.get(i).getMinutiaX() &&
-                                    iy == CrossingNumbersResult.get(i).getMinutiaY())){
-                                auxX = ix;
-                                auxY = iy;
+                    for(int ix = antX - 1; ix < antX + 1 && !found; ix++){
+                        for(int iy = antY - 1; iy < antY + 1 && !found; iy++){
+                               //AQUI COMPRUEBO QUE IX, IY NO SON IGUALES QUE LAS COORDENADAS INICIALES NI QUE LAS ANTERIORES
+                               //GUARDADAS
+                               if(auxZS[ix][iy] == 1 && !(ix == CrossingNumbersResult.get(i).getMinutiaX() &&
+                                       iy == CrossingNumbersResult.get(i).getMinutiaY()) && !(ix == antX && iy == antY)){
+                                antX = ix;
+                                antY = iy;
                                 found = true;
                             }
                         }
                     }
                 }
-                angle = Math.atan2((double)(auxY - CrossingNumbersResult.get(i).getMinutiaY()),
-                        (double)(auxX - CrossingNumbersResult.get(i).getMinutiaX()));
+                angle = Math.atan2((double)(CrossingNumbersResult.get(i).getMinutiaY() - antY),
+                        (double)(CrossingNumbersResult.get(i).getMinutiaX() - antX));
                 CrossingNumbersResult.get(i).setAngle(angle);
+            }
+            else{
+
             }
         }
 
