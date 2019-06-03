@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Windows.Window">
+  <grid id="27dc6" binding="main" layout-manager="GridLayoutManager" row-count="6" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="19" y="20" width="841" height="515"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="8c580" class="javax.swing.JButton" binding="loadImageButton" default-binding="true">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Load Image"/>
+        </properties>
+      </component>
+      <grid id="8ad80" binding="imgSrc" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="2" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="6667a" class="javax.swing.JLabel" binding="Source">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Source"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="fb9b7" binding="BW" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="3" row-span="2" col-span="3" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="f916f" class="javax.swing.JLabel" binding="Result">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Result"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <component id="4c8b2" class="javax.swing.JButton" binding="convertToBlackAndButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Do Black and White"/>
+        </properties>
+      </component>
+      <component id="25064" class="javax.swing.JSlider" binding="sliderBW">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <maximum value="255"/>
+          <paintLabels value="false"/>
+          <paintTicks value="false"/>
+          <paintTrack value="true"/>
+          <snapToTicks value="false"/>
+          <value value="127"/>
+        </properties>
+      </component>
+      <component id="4170b" class="javax.swing.JButton" binding="convertToGreyButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Convert to Grey"/>
+        </properties>
+      </component>
+      <component id="7dfe6" class="javax.swing.JButton" binding="doHistogramButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Do Histogram"/>
+        </properties>
+      </component>
+      <component id="25677" class="javax.swing.JButton" binding="zhangSuenButton" default-binding="true">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Zhang-Suen"/>
+        </properties>
+      </component>
+      <component id="c430f" class="javax.swing.JButton" binding="minutiasButton" default-binding="true">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Minutias"/>
+        </properties>
+      </component>
+      <component id="e0dec" class="javax.swing.JButton" binding="anglesButton">
+        <constraints>
+          <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Angles"/>
+        </properties>
+      </component>
+      <component id="2e608" class="javax.swing.JButton" binding="showMinutiasButton" default-binding="true">
+        <constraints>
+          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Show Minutias"/>
+        </properties>
+      </component>
+      <component id="44273" class="javax.swing.JButton" binding="doFiltersButton" default-binding="true">
+        <constraints>
+          <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Do Filters"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>
