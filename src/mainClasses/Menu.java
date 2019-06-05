@@ -340,8 +340,8 @@ public class Menu {
             if(CrossingNumbersResult.get(i).getType() == 1){
                 for(int j = 0; j < 6; j++){
                     found = false;
-                    for(int ix = antX - 1; ix < antX + 1 && !found; ix++){
-                        for(int iy = antY - 1; iy < antY + 1 && !found; iy++){
+                    for(int ix = antX - 1; ix <= antX + 1 && !found; ix++){
+                        for(int iy = antY - 1; iy <= antY + 1 && !found; iy++){
                                //AQUI COMPRUEBO QUE IX, IY NO SON IGUALES QUE LAS COORDENADAS INICIALES NI QUE LAS ANTERIORES
                                //GUARDADAS
                                if(auxZS[ix][iy] == 1 && !(ix == CrossingNumbersResult.get(i).getMinutiaX() &&
@@ -353,16 +353,22 @@ public class Menu {
                         }
                     }
                 }
-                angle = Math.atan2((double)(CrossingNumbersResult.get(i).getMinutiaY() - antY),
-                        (double)(CrossingNumbersResult.get(i).getMinutiaX() - antX));
+                angle = Math.toDegrees(Math.atan2((double)(CrossingNumbersResult.get(i).getMinutiaY() - antY),
+                        (double)(CrossingNumbersResult.get(i).getMinutiaX() - antX)));
                 CrossingNumbersResult.get(i).setAngle(angle);
             }
         }
-
+        convertAngles();
         System.out.println("MINUTIAS TIPO 1 CON ANGULOS");
         for(int j = 0; j < CrossingNumbersResult.size(); j++){
             if(CrossingNumbersResult.get(j).getType() == 1)
                 CrossingNumbersResult.get(j).showMinutia();
+        }
+    }
+
+    public static void convertAngles(){
+        for(int i = 0; i < CrossingNumbersResult.size();i++){
+            Minutia aux = CrossingNumbersResult.get(i);
         }
     }
 
