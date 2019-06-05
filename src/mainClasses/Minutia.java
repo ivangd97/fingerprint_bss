@@ -51,4 +51,8 @@ public class Minutia {
     public int getMinutiaY() {
         return minutiaY;
     }
+
+    public double getAngle() {
+        return angle;
+    }
 }

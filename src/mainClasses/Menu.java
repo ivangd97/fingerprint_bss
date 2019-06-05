@@ -330,7 +330,6 @@ public class Menu {
 
     //Calcula el angulo de las minutias encontradas
     public static void doAngles(){
-        //TODO: ANGULOS
         double angle = 0;
         int antX, antY;
         boolean found;
@@ -353,23 +352,54 @@ public class Menu {
                         }
                     }
                 }
-                angle = Math.toDegrees(Math.atan2((double)(CrossingNumbersResult.get(i).getMinutiaY() - antY),
-                        (double)(CrossingNumbersResult.get(i).getMinutiaX() - antX)));
+                angle = Math.toDegrees(Math.atan2((double)(antY - CrossingNumbersResult.get(i).getMinutiaY()),
+                        (double)(antX - CrossingNumbersResult.get(i).getMinutiaX())));
                 CrossingNumbersResult.get(i).setAngle(angle);
             }
+            else{
+                int tri = 0;
+                angle = 0;
+                for(int ix = antX - 1; ix <= antX + 1 && tri < 3; ix++) {
+                    for (int iy = antY - 1; iy <= antY + 1 && tri < 3; iy++) {
+                        if(auxZS[ix][iy] == 1 && !(ix == CrossingNumbersResult.get(i).getMinutiaX() &&
+                                iy == CrossingNumbersResult.get(i).getMinutiaY()) && !(ix == antX && iy == antY)){
+                            tri++;
+                            angle += doTypeThreeAngle(CrossingNumbersResult.get(i).getMinutiaX(),CrossingNumbersResult.get(i).getMinutiaY(),
+                                    ix,iy);
+                        }
+                    }
+                }
+                CrossingNumbersResult.get(i).setAngle(angle/3);
+            }
         }
-        convertAngles();
         System.out.println("MINUTIAS TIPO 1 CON ANGULOS");
         for(int j = 0; j < CrossingNumbersResult.size(); j++){
             if(CrossingNumbersResult.get(j).getType() == 1)
                 CrossingNumbersResult.get(j).showMinutia();
         }
+
+        System.out.println("MINUTIAS TIPO 3 CON ANGULOS");
+        for(int j = 0; j < CrossingNumbersResult.size(); j++){
+            if(CrossingNumbersResult.get(j).getType() == 3)
+                CrossingNumbersResult.get(j).showMinutia();
+        }
     }
 
-    public static void convertAngles(){
-        for(int i = 0; i < CrossingNumbersResult.size();i++){
-            Minutia aux = CrossingNumbersResult.get(i);
+    public static double doTypeThreeAngle(int x, int y, int secondX, int secondY){
+        boolean found;
+        for(int j = 0; j < 6; j++){
+            found = false;
+            for(int ix = secondX - 1; ix <= secondX + 1 && !found; ix++){
+                for(int iy = secondY - 1; iy <= secondY + 1 && !found; iy++){
+                    if(auxZS[ix][iy] == 1 && !(ix == x && iy == y) && !(ix == secondX && iy == secondY)){
+                        secondX = ix;
+                        secondY = iy;
+                        found = true;
+                    }
+                }
+            }
         }
+        return(Math.toDegrees(Math.atan2((double)(secondY - y), (double)(secondX - x))));
     }
 
     public static BufferedImage getImgSrc() {
