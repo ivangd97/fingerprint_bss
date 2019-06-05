@@ -6,8 +6,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 import mainClasses.Menu;
 
@@ -40,7 +38,7 @@ public class Window {
                 int selection = fileChooser.showOpenDialog(main);
                 if(selection == JFileChooser.APPROVE_OPTION){
                     Menu.setImgSrc(fileChooser.getSelectedFile().getAbsolutePath());
-                    Menu.initizalize();
+                    Menu.initialize();
                     Source.setText("");
                     if(Menu.getImgSrc().getWidth() < Menu.getImgSrc().getHeight())
                         Source.setIcon(new ImageIcon(Menu.getImgSrc().getScaledInstance(160,240, Image.SCALE_SMOOTH)));

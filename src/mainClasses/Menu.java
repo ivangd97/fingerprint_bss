@@ -1,7 +1,6 @@
 package mainClasses;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -9,21 +8,43 @@ import java.util.ArrayList;
 
 public class Menu {
 
-    public static BufferedImage imgSrc;
-    public static BufferedImage imgOutput;
-    public static BufferedImage imgHistogram;
-    public static BufferedImage imgBW;
-    public static int[][] auxGrey;
-    public static int[][] auxHistogram;
-    public static int[][] auxBW;
-    public static int[][] auxZS;
-    public static int[][] auxMinutias;
-    public static int[][] workMatrix;
-    public static int[][] lastworkMatrix;
-    public static int limitValue;
-    public static ArrayList <Minutia>CrossingNumbersResult = new ArrayList<Minutia>();
+    // Imagen fuente
+    private static BufferedImage imgSrc;
 
-    public static void initizalize(){
+    // Imagen de salida
+    private static BufferedImage imgOutput;
+
+    // Imagen en blanco y negro
+    private static BufferedImage imgBW;
+
+    // Imagen transformada a gris
+    private static int[][] auxGrey;
+
+    // Transformación de la imagen gris con el algoritmo del histograma
+    private static int[][] auxHistogram;
+
+    // Matriz auxHistogram pasada a blanco y negro
+    private static int[][] auxBW;
+
+    // Matriz en blanco y negro pasada por el algoritmo de ZhangSuen
+    private static int[][] auxZS;
+
+    // Matriz con minutias
+    private static int[][] auxMinutias;
+
+    private static int[][] workMatrix;
+    private static int[][] lastworkMatrix;
+
+    // Valor umbral
+    private static int limitValue;
+
+    // Lista de minutias
+    private static ArrayList <Minutia>CrossingNumbersResult = new ArrayList<Minutia>();
+
+    /**
+     * Método de inicialización
+     */
+    public static void initialize(){
         auxGrey = new int[imgSrc.getWidth()][imgSrc.getHeight()];
         auxHistogram = new int[imgSrc.getWidth()][imgSrc.getHeight()];
         auxBW = new int[imgSrc.getWidth()][imgSrc.getHeight()];
@@ -31,12 +52,17 @@ public class Menu {
         auxMinutias = new int[imgSrc.getWidth()][imgSrc.getHeight()];
         imgOutput = new BufferedImage(imgSrc.getWidth(),imgSrc.getHeight(),imgSrc.getType());
         imgBW = new BufferedImage(imgSrc.getWidth(),imgSrc.getHeight(),imgSrc.getType());
+
         //TODO: utilizar estas dos variables para el boton de deshacer
         workMatrix = new int[imgSrc.getWidth()][imgSrc.getHeight()];
         lastworkMatrix = new int[imgSrc.getWidth()][imgSrc.getHeight()];
         CrossingNumbersResult.clear();
     }
 
+    /**
+     * Método que convierte imgSrc a gris
+     * imgSrc -> auxGrey
+     */
     public static void convertToGrey(){
         for (int x = 0; x < imgSrc.getWidth(); ++x){
             for (int y = 0; y < imgSrc.getHeight(); ++y){
@@ -51,12 +77,18 @@ public class Menu {
         convertToRGB(auxGrey);
     }
 
+    /**
+     * Método que hace el histograma de la imagen fuente
+     */
     public static void doHistogram(){
         int width = imgSrc.getWidth();
         int height = imgSrc.getHeight();
-        int tampixel = width*height;
+        int tampixel = width * height;
         int[] histograma = new int[256];
+        float[] lut = new float[256];
+        int sum = 0;
         int i;
+
         //Calculamos frecuencia relativa de ocurrencia
         // de los distintos niveles de gris en la imagen
         for (int x = 0; x < width; x++) {
@@ -65,26 +97,29 @@ public class Menu {
                 histograma[valor]++;
             }
         }
-        int sum =0;
+
         // Construimos la Lookup table LUT
-        float[] lut = new float[256];
-        for ( i=0; i < 256; ++i ){
+        for ( i = 0; i < 256; ++i ){
             sum += histograma[i];
             lut[i] = sum * 255 / tampixel;
         }
-        // Se transforma la imagenutilizandola tabla LUT
-        i=0;
+        // Se transforma la imagen utilizando la tabla LUT
+        i = 0;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 int valor = auxGrey[x][y];
                 int valorNuevo = (int) lut[valor];
                 auxHistogram[x][y] =  valorNuevo;
-                i = i+1;
+                i = i + 1;
             }
         }
         convertToRGB(auxHistogram);
     }
 
+    /**
+     * Convierte la imagen fuente a blanco y negro
+     * @param limit valor del umbral
+     */
     public static void convertToBW(int limit) {
         for (int x = 0; x < imgSrc.getWidth(); ++x) {
             for (int y = 0; y < imgSrc.getHeight(); ++y) {
@@ -100,6 +135,9 @@ public class Menu {
         convertBlackAndWhiteToRGB(auxBW);
     }
 
+    /**
+     * Método que pasa la imagen en blanco y negro por dos filtros binarios
+     */
     public static void doFilters(){
         binaryFilter1(auxBW);
         binaryFilter2(auxBW);
@@ -107,6 +145,10 @@ public class Menu {
         convertBlackAndWhiteToRGB(auxBW);
     }
 
+    /**
+     * Método que pasa una imagen en escala de grises a RGB
+     * @param workImage matriz que representa la imagen en escala de grises
+     */
     public static void convertToRGB(int[][] workImage){
         for (int x = 0; x < imgSrc.getWidth(); ++x) {
             for (int y = 0; y < imgSrc.getHeight(); ++y) {
@@ -117,23 +159,31 @@ public class Menu {
         }
     }
 
+    /**
+     * Método que pasa una imagen en blanco y negro a rgb
+     * @param workImage matriz que contiene la imagen en blanco y negro
+     */
     public static void convertBlackAndWhiteToRGB(int[][] workImage){
         for (int x = 0; x < imgSrc.getWidth(); ++x){
             for (int y = 0; y < imgSrc.getHeight(); ++y){
-                int valor= workImage[x][y];
-                valor=valor*255;
+                int valor = workImage[x][y] * 255;
                 int pixelRGB=(255<<24 | valor << 16 | valor << 8 | valor);
                 imgBW.setRGB(x, y,pixelRGB);
             }
         }
     }
 
-    //Almacena el último valor del filtro cuando ha sido convertida la imagen para realizar el resto de algoritmos
-    // sobre el filtro que hemos creido optimo.
+    /*Almacena el último valor del filtro cuando ha sido convertida la imagen para realizar el resto de algoritmos
+     sobre el filtro que hemos creido optimo.
+     */
     public static void setLastLimitValue(int newValue){
         limitValue = newValue;
     }
 
+    /**
+     * Método que aplica el filtro binario 1
+     * @param imageToFilter imagen a filtrar guardada en una matriz
+     */
     public static void binaryFilter1(int[][] imageToFilter){
         boolean[][] aux = new boolean[imageToFilter.length][imageToFilter[0].length];
         boolean valueOfPixel;
@@ -165,15 +215,16 @@ public class Menu {
 
     }
 
+    /**
+     * Imagen que realiza el filtro binario 2 a una imagen
+     * @param imageToFilter imagen guardada en una matriz
+     */
     public static void binaryFilter2(int[][] imageToFilter){
         boolean[][] aux = new boolean[imageToFilter.length][imageToFilter[0].length];
         boolean valueOfPixel;
         for(int i = 0; i < imageToFilter.length; i++){
             for (int j = 0; j < imageToFilter[i].length; j++){
-                if(imageToFilter[i][j] == 0)
-                    aux[i][j] = false;
-                else
-                    aux[i][j] = true;
+                aux[i][j] = (imageToFilter[i][j] != 0);
             }
         }
 
@@ -190,15 +241,18 @@ public class Menu {
 
         for(int i = 0; i < aux.length; i++){
             for (int j = 0; j < aux[i].length; j++){
-                if(aux[i][j] == false)
+                if(aux[i][j] == false) {
                     imageToFilter[i][j] = 0;
-                else
+                } else {
                     imageToFilter[i][j] = 1;
+                }
             }
         }
     }
 
-    //Realiza el algoritmo crossing numbers para encontrar las minutias en la huella
+    /*
+     *Realiza el algoritmo crossing numbers para encontrar las minutias en la huella
+     */
     public static void CrossingNumbers(){
         ArrayList <Integer> auxlist = new ArrayList<Integer>();
         int acumulador = 0;
@@ -303,9 +357,6 @@ public class Menu {
                         (double)(CrossingNumbersResult.get(i).getMinutiaX() - antX));
                 CrossingNumbersResult.get(i).setAngle(angle);
             }
-            else{
-
-            }
         }
 
         System.out.println("MINUTIAS TIPO 1 CON ANGULOS");
@@ -326,11 +377,6 @@ public class Menu {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public static BufferedImage getImgHistogram() {
-        return imgHistogram;
     }
 
 

@@ -73,10 +73,7 @@ public class ZhangSuen {
     }
 
     static int neg(int num){
-        if(num == 1)
-            return 0;
-        else
-            return 1;
+        return (num == 1)? 0 : 1;
     }
 
     static int numNeighbors(int r, int c, int [][] image) {
