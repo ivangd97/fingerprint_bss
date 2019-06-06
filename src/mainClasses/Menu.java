@@ -141,7 +141,6 @@ public class Menu {
     public static void doFilters(){
         binaryFilter1(auxBW);
         binaryFilter2(auxBW);
-        System.out.println(auxBW);
         convertBlackAndWhiteToRGB(auxBW);
     }
 
@@ -167,7 +166,7 @@ public class Menu {
         for (int x = 0; x < imgSrc.getWidth(); ++x){
             for (int y = 0; y < imgSrc.getHeight(); ++y){
                 int valor = workImage[x][y] * 255;
-                int pixelRGB=(255<<24 | valor << 16 | valor << 8 | valor);
+                int pixelRGB = (255<<24 | valor << 16 | valor << 8 | valor);
                 imgBW.setRGB(x, y,pixelRGB);
             }
         }
